@@ -3,6 +3,7 @@ package fileio;
 import entertainment.Season;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Information about a tv show, retrieved from parsing the input test files
@@ -46,4 +47,5 @@ public final class SerialInputData extends ShowInput {
                 + " numberSeason= " + numberOfSeasons
                 + ", seasons=" + seasons + "\n\n" + '}';
     }
+
 }

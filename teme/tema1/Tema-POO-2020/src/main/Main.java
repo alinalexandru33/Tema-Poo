@@ -3,9 +3,7 @@ package main;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
-import fileio.Input;
-import fileio.InputLoader;
-import fileio.Writer;
+import fileio.*;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -13,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -71,6 +70,32 @@ public final class Main {
         JSONArray arrayResult = new JSONArray();
 
         //TODO add here the entry point to your implementation
+
+        List<ActionInputData> actions;
+        actions = input.getCommands();
+
+        List<UserInputData> users = input.getUsers();
+
+        List<ActorInputData> actors = input.getActors();
+
+        List<MovieInputData> movies = input.getMovies();
+
+        List<SerialInputData> series = input.getSerials();
+
+        for(ActionInputData action : actions) {
+            if (action.getActionType().compareTo("command") == 0)
+                for (UserInputData user : users)
+                    if (user.getUsername().compareTo(action.getUsername()) == 0) {
+                        Command command = new Command(action, user, movies, series);
+                        if (action.getType().compareTo("favorite") == 0)
+                            arrayResult.add(fileWriter.writeFile(action.getActionId(), command.Favorite()));
+                        if (action.getType().compareTo("view") == 0)
+                            arrayResult.add(fileWriter.writeFile(action.getActionId(), command.View()));
+                        if (action.getType().compareTo("rating") == 0)
+                            arrayResult.add(fileWriter.writeFile(action.getActionId(), command.Rate()));
+                    }
+
+        }
 
         fileWriter.closeJSON(arrayResult);
     }
